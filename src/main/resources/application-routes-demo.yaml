@@ -1,0 +1,49 @@
+# =========================================================
+# Spring Cloud Gateway 常见路由规则示例（学习用）
+# 注意：本文件默认不参与启动配置，仅供复制参考。
+# 你可以按需把其中某些 routes 合并到 application.yaml。
+# =========================================================
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        # 1) Path + StripPrefix：最常见的后端服务代理
+        - id: user-service-route
+          uri: lb://user-service
+          predicates:
+            - Path=/api/user/**
+          filters:
+            - StripPrefix=2
+            - AddRequestHeader=X-Gateway, gatway-demo
+
+        # 2) RewritePath：对外 URL 与后端 URL 不一致时使用
+        - id: order-rewrite-route
+          uri: lb://order-service
+          predicates:
+            - Path=/api/order/**
+          filters:
+            - RewritePath=/api/order/(?<segment>.*), /${segment}
+
+        # 3) Method + Header：只允许特定方法和请求头通过
+        - id: report-secure-route
+          uri: lb://report-service
+          predicates:
+            - Path=/api/report/**
+            - Method=GET
+            - Header=X-App-Token, .+
+
+        # 4) Host：基于域名做路由
+        - id: admin-host-route
+          uri: lb://admin-service
+          predicates:
+            - Host=admin.example.com
+            - Path=/**
+
+        # 5) Retry：短暂故障时重试（谨慎用于幂等接口）
+        - id: payment-retry-route
+          uri: lb://payment-service
+          predicates:
+            - Path=/api/payment/**
+          filters:
+            - Retry=3,INTERNAL_SERVER_ERROR,BAD_GATEWAY
