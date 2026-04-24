@@ -47,6 +47,18 @@
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
 
+        <!-- Nacos 配置中心（每个需要动态配置的服务都要加）-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <!-- bootstrap 文件支持（Spring Boot 2.4+ 必须加）-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
+
+
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
@@ -77,6 +89,18 @@
             <artifactId>jjwt-jackson</artifactId>
             <version>0.10.7</version>
             <scope>runtime</scope>
+        </dependency>
+
+        <!-- Spring Cloud Sleuth：自动埋点，生成 TraceId / SpanId -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-sleuth</artifactId>
+        </dependency>
+
+        <!-- Zipkin：将链路数据上报给 Zipkin Server -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-sleuth-zipkin</artifactId>
         </dependency>
 
     </dependencies>

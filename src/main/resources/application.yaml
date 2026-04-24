@@ -1,49 +1,18 @@
 server:
   port: 8040
 
-
-
 spring:
-  application:
-    name: gatway
-
-  # nacos注册中心
-  cloud:
-    nacos:
-      discovery:
-        server-addr: 47.122.87.219:8848
-        namespace: 7e1f4523-af8b-48ab-9ec2-368a30db92ee # nacos命名空间
-        group: DEFAULT_GROUP  # nacos命名空间id
-        cluster-name: NJ      # nacos集群名称
-    gateway:
-      discovery:
-        locator:
-          # 让网关从nacos中获取服务
-          enabled: true
-      routes:
-#        - id: after_route
-#          uri: lb://user-service #lb 代表 Load Balancer（负载均衡） 指的是从nacos中按照名称获取微服务
-#          predicates:
-#            - After=2017-01-20T17:42:47.789-07:00[America/Denver]
-#            - Path=/api/**   # 加上这行，避免匹配所有请求
-
-        # 1) Path + StripPrefix：最常见的后端服务代理
-        - id: user-service-route
-          uri: lb://user-service
-          predicates:
-            - Path=/api/**
-
-        - id: content-service-route
-          uri: lb://content-service
-          predicates:
-            - Path=/admin/**,/shares/**
-
-jwt:
-  # JWT密钥，必须至少32个字符（256位），建议使用更复杂的随机字符串
-  secret: suibianxiesuibianxiesuibianxiesui
-  # 有效期，单位秒，默认2周
-  expire-time-in-second: 1209600
+  sleuth:
+    sampler:
+      probability: 1.0
+    zipkin:
+      base-url: http://192.168.31.80:9411
+      sender:
+        type: web
 
 
-
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

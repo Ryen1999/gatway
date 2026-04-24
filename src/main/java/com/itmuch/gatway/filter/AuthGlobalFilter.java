@@ -25,7 +25,14 @@ public class AuthGlobalFilter  implements GlobalFilter, Ordered {
 
     // 不需要登录的白名单路径
     private static final List<String> WHITE_LIST = Arrays.asList(
-            "/api/users/login", "/api/users/register"
+            "/api/users/login", "/api/users/register",
+            // 陪诊平台公开接口
+            "/users/login",
+            "/services",
+            "/hospitals",
+            "/escorts",
+            "/banners",
+            "/faqs"
     );
 
     /**
@@ -47,12 +54,13 @@ public class AuthGlobalFilter  implements GlobalFilter, Ordered {
 
         String token = exchange.getRequest().getHeaders().getFirst("X-Token");
         if (token == null ) {
+            log.info("请求头中X-Token为空");
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
         }
 
         try {
-          //  Claims claims = jwtOperator.getClaimsFromToken(token);
+            //  Claims claims = jwtOperator.getClaimsFromToken(token);
 //            String userId = claims.get("id").toString();
 //            String wxNickName = claims.get("wxNickName").toString();
 

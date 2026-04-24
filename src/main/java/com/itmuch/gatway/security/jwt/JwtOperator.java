@@ -27,7 +27,7 @@ public class JwtOperator {
      * 有效期，单位秒
      * - 默认2周
      */
-    @Value("${jwt.expire-time-in-second}")
+    @Value("${jwt.expiration}")
     private Long expirationTimeInSecond;
 
     /**

@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: gatway
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      # 配置中心
+      config:
+        server-addr: 47.122.87.219:8848
+        namespace: 7e1f4523-af8b-48ab-9ec2-368a30db92ee
+        group: DEFAULT_GROUP
+        file-extension: yaml
+        refresh-enabled: true  # 开启自动刷新
+        shared-configs:
+          - data-id: jwt-shared.yaml           # JWT 共享配置
+            group: DEFAULT_GROUP
+            refresh: true
+
+      # 注册中心
+      discovery:
+        server-addr: 47.122.87.219:8848
+        namespace: 7e1f4523-af8b-48ab-9ec2-368a30db92ee
+        group: DEFAULT_GROUP
+        cluster-name: NJ
+
+# 暴露端点用于刷新配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
